@@ -1,0 +1,56 @@
+{
+	"name": "electron-playground",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"build": "npm-run-all clean copy build:*",
+		"build:sass": "sass src/common/sass:dist/common/css",
+		"build:ts": "tsc",
+		"development": "electron ./dist/index.js -d",
+		"clean": "npx rimraf dist",
+		"copy": "npm-run-all --parallel copy:*",
+		"copy:html": "copyfiles -u 1 ./src/**/*.html dist",
+		"copy:svg": "copyfiles -u 1 ./src/**/*.svg dist",
+		"copy:png": "copyfiles -u 1 ./src/**/*.png dist",
+		"copy:jpg": "copyfiles -u 1 ./src/**/*.jpg dist",
+		"copy:js": "copyfiles -u 1 ./src/**/*.js dist",
+		"lint": "eslint -c .eslintrc --ext .ts ./src",
+		"start": "electron ./dist/index.js",
+		"watch:html": "onchange \"src/**/*.html\" -- npm run copy:html",
+		"watch:sass": "sass --watch src/common/sass:dist/common/css",
+		"watch:svg": "onchange \"src/**/*.svg\" -- npm run copy:svg",
+		"watch:png": "onchange \"src/**/*.png\" -- npm run copy:png",
+		"watch:jpg": "onchange \"src/**/*.jpg\" -- npm run copy:jpg",
+		"watch:js": "onchange \"src/**/*.js\" -- npm run copy:js",
+		"watch:ts": "tsc -w & nodemon -q -w ./src ./dist",
+		"watch": "npm-run-all --parallel watch:*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/ElCapitanSponge/electron-playground.git"
+	},
+	"author": "Andrew Brunker",
+	"license": "Apache-2.0",
+	"bugs": {
+		"url": "https://github.com/ElCapitanSponge/electron-playground/issues"
+	},
+	"homepage": "https://github.com/ElCapitanSponge/electron-playground#readme",
+	"devDependencies": {
+		"browserify": "^17.0.0",
+		"copyfiles": "^2.4.1",
+		"eslint": "^8.46.0",
+		"nodemon": "^3.0.1",
+		"npm-run-all": "^4.1.5",
+		"onchange": "^7.1.0",
+		"rxjs": "^7.8.1",
+		"sass": "^1.64.2",
+		"typescript": "^5.1.6",
+		"utf-8-validate": "^6.0.3",
+		"zod": "^3.21.4"
+	},
+	"dependencies": {
+		"electron": "^25.4.0",
+		"express": "^4.18.2"
+	}
+}
