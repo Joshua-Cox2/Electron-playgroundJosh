@@ -7,6 +7,7 @@
 		"build": "npm-run-all clean copy build:*",
 		"build:sass": "sass src/common/sass:dist/common/css",
 		"build:ts": "tsc",
+    "dev": "npm-run-all development",
 		"development": "electron ./dist/index.js -d",
 		"clean": "npx rimraf dist",
 		"copy": "npm-run-all --parallel copy:*",
@@ -23,7 +24,7 @@
 		"watch:png": "onchange \"src/**/*.png\" -- npm run copy:png",
 		"watch:jpg": "onchange \"src/**/*.jpg\" -- npm run copy:jpg",
 		"watch:js": "onchange \"src/**/*.js\" -- npm run copy:js",
-		"watch:ts": "tsc -w & nodemon -q -w ./src ./dist",
+		"watch:ts": "tsc -w & nodemon -q -w ./src/**/* ./dist",
 		"watch": "npm-run-all --parallel watch:*"
 	},
 	"repository": {
