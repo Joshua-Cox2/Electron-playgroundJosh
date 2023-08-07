@@ -4,6 +4,7 @@ exports.menu = void 0;
 const electron_1 = require("electron");
 const path_1 = require("path");
 const common_enums_1 = require("../../common/common.enums");
+const common_defaults_1 = require("../../common/common.defaults");
 class menu {
     constructor(settings, helper, application) {
         this.settings = settings;
@@ -135,6 +136,7 @@ class menu {
                 this.overlayMenuItems = menuItems || this.overlayMenuItemsDefault();
                 this.overlayMenu = electron_1.Menu.buildFromTemplate(this.overlayMenuItems);
                 this.overlay = new electron_1.BrowserWindow({
+                    backgroundColor: common_defaults_1.BACKGROUND_DEFAULT,
                     x: this.offsetX(resolution.width),
                     y: this.offsetY(resolution.height),
                     width: resolution.width,
@@ -147,6 +149,7 @@ class menu {
                         contextIsolation: false,
                     }
                 });
+                this.overlay.setBackgroundColor(common_defaults_1.BACKGROUND_DEFAULT);
                 this.overlay.setMenu(this.overlayMenu);
                 this.overlay.loadURL(contentLocation);
                 this.overlay.on('closed', () => this.overlayClose());

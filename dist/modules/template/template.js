@@ -4,14 +4,14 @@ exports.template = void 0;
 const electron_1 = require("electron");
 const path_1 = require("path");
 const common_enums_1 = require("../../common/common.enums");
-const BACKGROUND_DEFAULT = '#000000';
+const common_defaults_1 = require("../../common/common.defaults");
 class template {
     constructor(settings, helper) {
         this.settings = settings;
         this.helper = helper;
         this.configure = () => {
             this.window = new electron_1.BrowserWindow({
-                backgroundColor: BACKGROUND_DEFAULT,
+                backgroundColor: common_defaults_1.BACKGROUND_DEFAULT,
                 frame: (this.settings.environment === common_enums_1.environmentEnum.enum.development) ? true : false,
                 title: "Electron Playground",
                 x: 0,
@@ -24,7 +24,7 @@ class template {
                     devTools: (this.settings.environment === common_enums_1.environmentEnum.enum.development) ? true : false,
                 }
             });
-            this.window.setBackgroundColor(BACKGROUND_DEFAULT);
+            this.window.setBackgroundColor(common_defaults_1.BACKGROUND_DEFAULT);
         };
         this.loadContent = () => {
             if (this.window !== undefined)

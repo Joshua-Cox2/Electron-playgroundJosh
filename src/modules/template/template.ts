@@ -3,8 +3,7 @@ import { join } from "path"
 import { common } from "../../common/common";
 import { TSettings } from "../../common/common.types";
 import { environmentEnum } from "../../common/common.enums";
-
-const BACKGROUND_DEFAULT: string = '#000000'
+import { BACKGROUND_DEFAULT } from "../../common/common.defaults";
 
 export class template {
     private path: string

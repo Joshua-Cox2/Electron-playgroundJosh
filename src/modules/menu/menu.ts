@@ -3,6 +3,7 @@ import { join } from "path";
 import { common } from "../../common/common";
 import { environmentEnum, ipcActionsEnum, optionTemplateEnum, optionTypesEnum } from "../../common/common.enums";
 import { TOptionTypesEnum, TResolution, TSettings } from "../../common/common.types";
+import { BACKGROUND_DEFAULT } from "../../common/common.defaults";
 
 export class menu {
     private ipc: Electron.IpcMain
@@ -161,6 +162,7 @@ export class menu {
             this.overlayMenuItems = menuItems || this.overlayMenuItemsDefault()
             this.overlayMenu = Menu.buildFromTemplate(this.overlayMenuItems)
             this.overlay = new BrowserWindow({
+                backgroundColor: BACKGROUND_DEFAULT,
                 x: this.offsetX(resolution.width),
                 y: this.offsetY(resolution.height),
                 width: resolution.width,
@@ -173,6 +175,7 @@ export class menu {
                     contextIsolation: false,
                 }
             })
+            this.overlay.setBackgroundColor(BACKGROUND_DEFAULT)
             this.overlay.setMenu(this.overlayMenu)
             this.overlay.loadURL(contentLocation)
             this.overlay.on('closed', () => this.overlayClose())
