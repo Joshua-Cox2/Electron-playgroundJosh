@@ -3,7 +3,7 @@ import { join } from "path";
 import { common } from "../../common/common";
 import { environmentEnum, ipcActionsEnum, optionTemplateEnum, optionTypesEnum } from "../../common/common.enums";
 import { TOptionTypesEnum, TResolution, TSettings } from "../../common/common.types";
-import { BACKGROUND_DEFAULT } from "../../common/common.defaults";
+import { BACKGROUND_DEFAULT, BACKGROUND_TRANSPARENT } from "../../common/common.defaults";
 
 export class menu {
     private ipc: Electron.IpcMain
@@ -99,7 +99,7 @@ export class menu {
     private optionHandler = (option: TOptionTypesEnum, resolutionOverride?: TResolution, menuItemsOverride?: (Electron.MenuItemConstructorOptions | MenuItem)[]): void => {
         switch (option) {
             case optionTypesEnum.enum.about:
-                this.overlayLoad(join(__dirname, '../', optionTemplateEnum.enum.about), resolutionOverride, menuItemsOverride)
+                this.overlayLoad(join(__dirname, '../', optionTemplateEnum.enum.about), true, resolutionOverride, menuItemsOverride)
                 break
             default:
                 if (this.overlayConfigured())
@@ -154,28 +154,28 @@ export class menu {
 
     public mainMenuGet = (): Menu | undefined => this.mainMenu
 
-    public overlayLoad = (contentLocation: string, res?: TResolution, menuItems?: (Electron.MenuItemConstructorOptions | MenuItem)[]): void => {
+    public overlayLoad = (contentLocation: string, transparentBg?: boolean, res?: TResolution, menuItems?: (Electron.MenuItemConstructorOptions | MenuItem)[]): void => {
         if (this.overlayConfigured())
             this.overlayClose()
         if (this.helper.fileExists(contentLocation)) {
+            let transBg = transparentBg || false
             let resolution = res || this.settings.resolution
             this.overlayMenuItems = menuItems || this.overlayMenuItemsDefault()
             this.overlayMenu = Menu.buildFromTemplate(this.overlayMenuItems)
             this.overlay = new BrowserWindow({
-                backgroundColor: BACKGROUND_DEFAULT,
                 x: this.offsetX(resolution.width),
                 y: this.offsetY(resolution.height),
                 width: resolution.width,
                 height: resolution.height,
                 modal: true,
-                frame: (this.settings.environment === environmentEnum.enum.development) ? true : false,
+                transparent: transBg,
+                frame: false,
                 webPreferences: {
                     nodeIntegration: true,
                     devTools: true,
                     contextIsolation: false,
                 }
             })
-            this.overlay.setBackgroundColor(BACKGROUND_DEFAULT)
             this.overlay.setMenu(this.overlayMenu)
             this.overlay.loadURL(contentLocation)
             this.overlay.on('closed', () => this.overlayClose())
@@ -185,6 +185,8 @@ export class menu {
     public overlayConfigured = (): boolean => this.overlay !== undefined
 
     public overlayClose = (): void => this.overlay = undefined
+
+    public overlayGet = (): BrowserWindow | undefined => this.overlay
 
     public isApple = (): boolean => this.isMac
 }

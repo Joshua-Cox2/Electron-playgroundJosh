@@ -4,7 +4,6 @@ exports.menu = void 0;
 const electron_1 = require("electron");
 const path_1 = require("path");
 const common_enums_1 = require("../../common/common.enums");
-const common_defaults_1 = require("../../common/common.defaults");
 class menu {
     constructor(settings, helper, application) {
         this.settings = settings;
@@ -78,7 +77,7 @@ class menu {
         this.optionHandler = (option, resolutionOverride, menuItemsOverride) => {
             switch (option) {
                 case common_enums_1.optionTypesEnum.enum.about:
-                    this.overlayLoad((0, path_1.join)(__dirname, '../', common_enums_1.optionTemplateEnum.enum.about), resolutionOverride, menuItemsOverride);
+                    this.overlayLoad((0, path_1.join)(__dirname, '../', common_enums_1.optionTemplateEnum.enum.about), true, resolutionOverride, menuItemsOverride);
                     break;
                 default:
                     if (this.overlayConfigured())
@@ -128,28 +127,28 @@ class menu {
             this.mainMenu = electron_1.Menu.buildFromTemplate(this.mainMenuItems);
         };
         this.mainMenuGet = () => this.mainMenu;
-        this.overlayLoad = (contentLocation, res, menuItems) => {
+        this.overlayLoad = (contentLocation, transparentBg, res, menuItems) => {
             if (this.overlayConfigured())
                 this.overlayClose();
             if (this.helper.fileExists(contentLocation)) {
+                let transBg = transparentBg || false;
                 let resolution = res || this.settings.resolution;
                 this.overlayMenuItems = menuItems || this.overlayMenuItemsDefault();
                 this.overlayMenu = electron_1.Menu.buildFromTemplate(this.overlayMenuItems);
                 this.overlay = new electron_1.BrowserWindow({
-                    backgroundColor: common_defaults_1.BACKGROUND_DEFAULT,
                     x: this.offsetX(resolution.width),
                     y: this.offsetY(resolution.height),
                     width: resolution.width,
                     height: resolution.height,
                     modal: true,
-                    frame: (this.settings.environment === common_enums_1.environmentEnum.enum.development) ? true : false,
+                    transparent: transBg,
+                    frame: false,
                     webPreferences: {
                         nodeIntegration: true,
                         devTools: true,
                         contextIsolation: false,
                     }
                 });
-                this.overlay.setBackgroundColor(common_defaults_1.BACKGROUND_DEFAULT);
                 this.overlay.setMenu(this.overlayMenu);
                 this.overlay.loadURL(contentLocation);
                 this.overlay.on('closed', () => this.overlayClose());
@@ -157,6 +156,7 @@ class menu {
         };
         this.overlayConfigured = () => this.overlay !== undefined;
         this.overlayClose = () => this.overlay = undefined;
+        this.overlayGet = () => this.overlay;
         this.isApple = () => this.isMac;
         this.mainMenuItems = [];
         this.overlayMenuItems = [];
