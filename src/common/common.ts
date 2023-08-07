@@ -1,4 +1,5 @@
-import { ZodError, ZodIssue } from "zod";
+import { existsSync, readFileSync } from "fs";
+import { ZodError } from "zod";
 import { environmentEnum } from "./common.enums";
 import { TEnvironmentEnum } from "./common.types";
 
@@ -38,4 +39,8 @@ export class common {
         else
             this.defaultError(error)
     }
+
+    public fileExists = (path: string): boolean => existsSync(path)
+
+    public loadFile = (path: string): string => readFileSync(path, { encoding: 'utf-8'})
 }

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.common = void 0;
+const fs_1 = require("fs");
 const common_enums_1 = require("./common.enums");
 class common {
     constructor(env) {
@@ -33,6 +34,8 @@ class common {
             else
                 this.defaultError(error);
         };
+        this.fileExists = (path) => (0, fs_1.existsSync)(path);
+        this.loadFile = (path) => (0, fs_1.readFileSync)(path, { encoding: 'utf-8' });
     }
 }
 exports.common = common;

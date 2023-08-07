@@ -1,4 +1,5 @@
 import { app } from "electron";
+import { join } from "path";
 import { common } from "./common/common";
 import { environmentEnum } from "./common/common.enums";
 import { TSettings, settings } from "./common/common.types";
@@ -12,9 +13,14 @@ let settingsInit = () => {
         setting = settings.parse({
             environment: environmentEnum.enum.production
         })
+        console.log(process.argv)
         process.argv.forEach((val: string) => {
             if (val === '-d' || val === '--development')
                 setting.environment = environmentEnum.enum.development
+            if (val.startsWith('--template-dir=')) {
+                setting.templateDir = val.replace('--template-dir=', '')
+                setting.templateDir = join(__dirname, '../', setting.templateDir)
+            }
         })
         helper.envMutate(setting.environment)
     } catch (e: any) {
