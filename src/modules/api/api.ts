@@ -8,25 +8,64 @@ import { menu } from "../menu/menu"
 import { TResponseBase, responseBase } from "./api.types"
 import { BACKGROUND_TRANSPARENT } from "../../common/common.defaults"
 
+/**
+ * API Class
+ * @date 8/8/2023 - 9:42:31 AM
+ *
+ * @export
+ * @class api
+ * @typedef {api}
+ */
 export class api {
+    /**
+     * Express api object
+     * @date 8/8/2023 - 9:42:31 AM
+     *
+     * @private
+     * @type {express.Application}
+     */
     private apiApp: express.Application
 
+    /**
+     * Creates an instance of api.
+     * @date 8/8/2023 - 9:42:31 AM
+     *
+     * @constructor
+     * @param {TSettings} settings
+     * @param {common} helper
+     * @param {BrowserWindow} application
+     * @param {menu} menus
+     */
     constructor(private settings: TSettings, private helper: common, private application: BrowserWindow, private menus: menu) {
         this.apiApp = express()
         this.routes()
         this.listen()
     }
 
+    /**
+     * Default response object
+     * @date 8/8/2023 - 9:42:31 AM
+     *
+     * @returns {TResponseBase}
+     */
     private responseDefault = (): TResponseBase => {
         return responseBase.parse({})
     }
 
+    /**
+     * API bindings configuration
+     * @date 8/8/2023 - 9:42:31 AM
+     */
     private listen = (): void => {
         this.apiApp.listen(this.settings.port, this.settings.apiDomain, () => {
             this.helper.log('api', `Server is running on ${this.settings.apiDomain}:${this.settings.port}`)
         })
     }
 
+    /**
+     * API routes configuration
+     * @date 8/8/2023 - 9:42:31 AM
+     */
     private routes = (): void => {
         this.apiApp.get('/', (req: express.Request, res: express.Response) => {
             res.send('Hello World!')

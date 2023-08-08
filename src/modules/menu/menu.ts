@@ -3,17 +3,82 @@ import { join } from "path";
 import { common } from "../../common/common";
 import { environmentEnum, ipcActionsEnum, optionTemplateEnum, optionTypesEnum } from "../../common/common.enums";
 import { TOptionTypesEnum, TResolution, TSettings } from "../../common/common.types";
-import { BACKGROUND_DEFAULT, BACKGROUND_TRANSPARENT } from "../../common/common.defaults";
 
+/**
+ * Menu management class
+ * @date 8/8/2023 - 9:42:22 AM
+ *
+ * @export
+ * @class menu
+ * @typedef {menu}
+ */
 export class menu {
+    /**
+     * Electron IPC handler
+     * @date 8/8/2023 - 9:42:22 AM
+     *
+     * @private
+     * @type {Electron.IpcMain}
+     */
     private ipc: Electron.IpcMain
+    /**
+     * Flag for if the device is a mac
+     * @date 8/8/2023 - 9:42:22 AM
+     *
+     * @private
+     * @type {boolean}
+     */
     private isMac: boolean
+    /**
+     * Main menu reference
+     * @date 8/8/2023 - 9:42:22 AM
+     *
+     * @private
+     * @type {(Menu | undefined)}
+     */
     private mainMenu: Menu | undefined
+    /**
+     * Items for the main menu
+     * @date 8/8/2023 - 9:42:22 AM
+     *
+     * @private
+     * @type {(Electron.MenuItemConstructorOptions | MenuItem)[]}
+     */
     private mainMenuItems: (Electron.MenuItemConstructorOptions | MenuItem)[]
+    /**
+     * Window for the overlay displays
+     * @date 8/8/2023 - 9:42:22 AM
+     *
+     * @private
+     * @type {(BrowserWindow | undefined)}
+     */
     private overlay: BrowserWindow | undefined
+    /**
+     * Menu for the overlay displays
+     * @date 8/8/2023 - 9:42:21 AM
+     *
+     * @private
+     * @type {(Menu | undefined)}
+     */
     private overlayMenu: Menu | undefined
+    /**
+     * Menu items for the overlay menu
+     * @date 8/8/2023 - 9:42:21 AM
+     *
+     * @private
+     * @type {(Electron.MenuItemConstructorOptions | MenuItem)[]}
+     */
     private overlayMenuItems: (Electron.MenuItemConstructorOptions | MenuItem)[]
 
+    /**
+     * Creates an instance of menu.
+     * @date 8/8/2023 - 9:42:21 AM
+     *
+     * @constructor
+     * @param {TSettings} settings
+     * @param {common} helper
+     * @param {BrowserWindow} application
+     */
     constructor(private settings: TSettings, private helper: common, private application: BrowserWindow) {
         this.mainMenuItems = []
         this.overlayMenuItems = []
@@ -22,6 +87,10 @@ export class menu {
         this.eventListenersInit()
     }
 
+    /**
+     * Initialize the event listeners
+     * @date 8/8/2023 - 9:42:21 AM
+     */
     private eventListenersInit = (): void => {
         this.ipc.on(ipcActionsEnum.enum.optionClose, (event: Electron.IpcMainEvent, data: any[]) => {
             if (this.overlayConfigured())
@@ -29,17 +98,34 @@ export class menu {
         })
     }
 
+    /**
+     * Reset the main menu
+     * @date 8/8/2023 - 9:42:21 AM
+     */
     private mainClear = (): void => {
         this.mainMenu = undefined
         this.mainMenuItems = []
     }
 
+    /**
+     * Overlay reset
+     * @depricated
+     * @date 8/8/2023 - 9:42:21 AM
+     */
     private overlayClear = (): void => {
         this.overlay = undefined
         this.overlayMenu = undefined
         this.overlayMenuItems = []
     }
 
+    /**
+     * Search a sub menu for a specific role
+     * @date 8/8/2023 - 9:42:21 AM
+     *
+     * @param {string} role
+     * @param {*} submenu
+     * @returns {boolean}
+     */
     private submenuSearchRole = (role: string, submenu): boolean => {
         let found: boolean = false
 
@@ -52,12 +138,26 @@ export class menu {
         return found
     }
 
+    /**
+     * Add an item to a sub menu
+     * @date 8/8/2023 - 9:42:21 AM
+     *
+     * @param {(Menu | Electron.MenuItemConstructorOptions[])} submenu
+     * @param {Electron.MenuItemConstructorOptions} item
+     * @returns {(Menu | Electron.MenuItemConstructorOptions[])}
+     */
     private submenuItemAdd = (submenu: Menu | Electron.MenuItemConstructorOptions[], item: Electron.MenuItemConstructorOptions): Menu | Electron.MenuItemConstructorOptions[] => {
         let submenuTmp: any | any[] = submenu
         submenuTmp.push(item)
         return submenuTmp
     }
 
+    /**
+     * Default overlay menu items
+     * @date 8/8/2023 - 9:42:20 AM
+     *
+     * @returns {(Electron.MenuItemConstructorOptions | MenuItem)[]}
+     */
     private overlayMenuItemsDefault = (): (Electron.MenuItemConstructorOptions | MenuItem)[] => {
         let menu: (Electron.MenuItemConstructorOptions | MenuItem)[] =  [
             {
@@ -96,6 +196,14 @@ export class menu {
         return menu
     }
 
+    /**
+     * Menu option handler
+     * @date 8/8/2023 - 9:42:20 AM
+     *
+     * @param {TOptionTypesEnum} option
+     * @param {?TResolution} [resolutionOverride]
+     * @param {?(Electron.MenuItemConstructorOptions | MenuItem)[]} [menuItemsOverride]
+     */
     private optionHandler = (option: TOptionTypesEnum, resolutionOverride?: TResolution, menuItemsOverride?: (Electron.MenuItemConstructorOptions | MenuItem)[]): void => {
         switch (option) {
             case optionTypesEnum.enum.about:
@@ -108,18 +216,36 @@ export class menu {
         }
     }
 
+    /**
+     * Offset for the overlay display on the x-axis
+     * @date 8/8/2023 - 9:42:20 AM
+     *
+     * @param {number} width
+     * @returns {number}
+     */
     private offsetX = (width: number): number => {
         if (width === this.settings.resolution.width)
             return 0
         return (this.settings.resolution.width - width) / 2
     }
 
+    /**
+     * Offset for the overlay display on the y-axis
+     * @date 8/8/2023 - 9:42:20 AM
+     *
+     * @param {number} height
+     * @returns {number}
+     */
     private offsetY = (height: number): number => {
         if (height === this.settings.resolution.height)
             return 0
         return (this.settings.resolution.height - height) / 2
     }
 
+    /**
+     * Creation of the main menu items
+     * @date 8/8/2023 - 9:42:20 AM
+     */
     public mainMenuCreate = (): void => {
         this.mainClear()
         this.mainMenuItems = [
@@ -152,8 +278,23 @@ export class menu {
         this.mainMenu = Menu.buildFromTemplate(this.mainMenuItems)
     }
 
+    /**
+     * Retrieve the main menu
+     * @date 8/8/2023 - 9:42:20 AM
+     *
+     * @returns {(Menu | undefined)}
+     */
     public mainMenuGet = (): Menu | undefined => this.mainMenu
 
+    /**
+     * Loading of an overlay item
+     * @date 8/8/2023 - 9:42:20 AM
+     *
+     * @param {string} contentLocation
+     * @param {?boolean} [transparentBg]
+     * @param {?TResolution} [res]
+     * @param {?(Electron.MenuItemConstructorOptions | MenuItem)[]} [menuItems]
+     */
     public overlayLoad = (contentLocation: string, transparentBg?: boolean, res?: TResolution, menuItems?: (Electron.MenuItemConstructorOptions | MenuItem)[]): void => {
         if (this.overlayConfigured())
             this.overlayClose()
@@ -182,11 +323,33 @@ export class menu {
         }
     }
 
+    /**
+     * Is the overlay window configured?
+     * @date 8/8/2023 - 9:42:19 AM
+     *
+     * @returns {boolean}
+     */
     public overlayConfigured = (): boolean => this.overlay !== undefined
 
+    /**
+     * Close the overlay window
+     * @date 8/8/2023 - 9:42:19 AM
+     */
     public overlayClose = (): void => this.overlay = undefined
 
+    /**
+     * Get the overlay window instance
+     * @date 8/8/2023 - 9:42:19 AM
+     *
+     * @returns {(BrowserWindow | undefined)}
+     */
     public overlayGet = (): BrowserWindow | undefined => this.overlay
 
+    /**
+     * Is the device anapple/mac device?
+     * @date 8/8/2023 - 9:42:19 AM
+     *
+     * @returns {boolean}
+     */
     public isApple = (): boolean => this.isMac
 }
