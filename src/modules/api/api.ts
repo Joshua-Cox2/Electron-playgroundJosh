@@ -70,13 +70,21 @@ export class api {
         this.apiApp.get('/', (req: express.Request, res: express.Response) => {
             res.send('Hello World!')
         })
-        this.apiApp.get('/about', (req: express.Request, res: express.Response) => {
+        this.apiApp.get('/open/about', (req: express.Request, res: express.Response) => {
             this.menus.overlayLoad(join(__dirname, '../', optionTemplateEnum.enum.about), true)
             let response: TResponseBase = this.responseDefault()
-            if (!this.menus.overlayConfigured())
-            {
+            if (!this.menus.overlayConfigured()) {
                 response.error = true
                 response.errorMsg = 'Unable to open about module'
+            }
+            res.json(response)
+        })
+        this.apiApp.get('/open/apollo', (req: express.Request, res: express.Response) => {
+            this.menus.overlayLoad(join(__dirname, '../../../', optionTemplateEnum.enum.overview), true)
+            let response: TResponseBase = this.responseDefault()
+            if (!this.menus.overlayConfigured()) {
+                response.error = true
+                response.errorMsg = 'Unable to open Apollo'
             }
             res.json(response)
         })

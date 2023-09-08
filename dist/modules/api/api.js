@@ -58,12 +58,21 @@ class api {
             this.apiApp.get('/', (req, res) => {
                 res.send('Hello World!');
             });
-            this.apiApp.get('/about', (req, res) => {
+            this.apiApp.get('/open/about', (req, res) => {
                 this.menus.overlayLoad((0, path_1.join)(__dirname, '../', common_enums_1.optionTemplateEnum.enum.about), true);
                 let response = this.responseDefault();
                 if (!this.menus.overlayConfigured()) {
                     response.error = true;
                     response.errorMsg = 'Unable to open about module';
+                }
+                res.json(response);
+            });
+            this.apiApp.get('/open/apollo', (req, res) => {
+                this.menus.overlayLoad((0, path_1.join)(__dirname, '../../../', common_enums_1.optionTemplateEnum.enum.overview), true);
+                let response = this.responseDefault();
+                if (!this.menus.overlayConfigured()) {
+                    response.error = true;
+                    response.errorMsg = 'Unable to open Apollo';
                 }
                 res.json(response);
             });

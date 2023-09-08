@@ -148,7 +148,7 @@ export class menu {
      * @returns {(Electron.MenuItemConstructorOptions | MenuItem)[]}
      */
     private overlayMenuItemsDefault = (): (Electron.MenuItemConstructorOptions | MenuItem)[] => {
-        let menu: (Electron.MenuItemConstructorOptions | MenuItem)[] =  [
+        let menu: (Electron.MenuItemConstructorOptions | MenuItem)[] = [
             {
                 label: 'File',
                 submenu: [
@@ -199,8 +199,6 @@ export class menu {
                 this.overlayLoad(join(__dirname, '../', optionTemplateEnum.enum.about), true, resolutionOverride, menuItemsOverride)
                 break
             case optionTypesEnum.enum.overview:
-                this.helper.log('optionHandler', 'overview path', optionTemplateEnum.enum.overview)
-                this.helper.log('optionHandler', 'overview __dirname', __dirname)
                 this.overlayLoad(join(__dirname, '../../../', optionTemplateEnum.enum.overview), true, resolutionOverride, menuItemsOverride)
             default:
                 if (this.overlayConfigured())
@@ -266,7 +264,7 @@ export class menu {
                         click: () => this.optionHandler(optionTypesEnum.Enum.about)
                     },
                     {
-                        label: 'Overview',
+                        label: 'Apollo',
                         accelerator: this.isMac ? 'Alt+Cmd+O' : 'Ctrl+Alt+O',
                         click: () => this.optionHandler(optionTypesEnum.Enum.overview)
                     }
