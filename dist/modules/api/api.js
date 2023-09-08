@@ -100,6 +100,29 @@ class api {
                 this.application.close();
                 res.json(response);
             });
+            this.apiApp.get('/load/dataJson', (req, res) => {
+                let response = {
+                    error: false,
+                    errorMsg: '',
+                    data: undefined
+                };
+                // INFO: Check if the data.json file exists within the template directory
+                if (this.settings.templateDir === undefined || this.settings.templateDir === "") {
+                    response.error = true;
+                    response.errorMsg = 'Template is not declared. Unable to load the json data.';
+                }
+                if (!response.error && !this.helper.fileExists(this.settings.templateDir)) {
+                    response.error = true;
+                    response.errorMsg = 'Template directory could nt be located. Unable to load the json data.';
+                }
+                if (!response.error && !this.helper.fileExists(`${this.settings.templateDir}/data.json`)) {
+                    response.error = true;
+                    response.errorMsg = 'Jason data was not found within the template folder';
+                }
+                if (!response.error)
+                    response.data = JSON.parse(this.helper.loadFile(`${this.settings.templateDir}/data.json`).replace('var clientData =', ''));
+                res.json(response);
+            });
         };
         this.apiApp = (0, express_1.default)();
         this.routes();
