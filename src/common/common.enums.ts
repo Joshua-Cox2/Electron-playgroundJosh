@@ -12,9 +12,9 @@ export const environmentEnum = z.enum(['development', 'production']);
  * Overlay Options Array
  * @date 8/8/2023 - 9:42:47 AM
  *
- * @type {readonly ["about"]}
+ * @type {readonly ["about", "overview"]}
  */
-const OPTIONTYPES = ['about'] as const
+const OPTIONTYPES = ['about', 'overview'] as const
 
 /**
  * IPC Actions Array
@@ -34,7 +34,11 @@ enum optionTemplate {
     /**
      * About module template
      */
-    'about' = 'about/about.page.html'
+    'about' = 'about/about.page.html',
+    /**
+     * Overview module template
+     */
+    'overview' = 'submodules/apollo/build/index.html'
 }
 
 /**
