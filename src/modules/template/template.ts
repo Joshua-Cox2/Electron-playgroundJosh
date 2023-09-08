@@ -42,7 +42,7 @@ export class template {
     constructor(private settings: TSettings, private helper: common) {
         this.path = join(__dirname, 'template.default.html')
         if (this.helper.fileExists(settings.templateDir))
-            this.path = settings.templateDir
+            this.path = `${settings.templateDir}/index1.html`
         this.helper.log('template constructor', 'path', this.path)
     }
 

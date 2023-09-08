@@ -4,26 +4,64 @@ exports.menu = void 0;
 const electron_1 = require("electron");
 const path_1 = require("path");
 const common_enums_1 = require("../../common/common.enums");
+/**
+ * Menu management class
+ * @date 8/8/2023 - 9:42:22 AM
+ *
+ * @export
+ * @class menu
+ * @typedef {menu}
+ */
 class menu {
+    /**
+     * Creates an instance of menu.
+     * @date 8/8/2023 - 9:42:21 AM
+     *
+     * @constructor
+     * @param {TSettings} settings
+     * @param {common} helper
+     * @param {BrowserWindow} application
+     */
     constructor(settings, helper, application) {
         this.settings = settings;
         this.helper = helper;
         this.application = application;
+        /**
+         * Initialize the event listeners
+         * @date 8/8/2023 - 9:42:21 AM
+         */
         this.eventListenersInit = () => {
             this.ipc.on(common_enums_1.ipcActionsEnum.enum.optionClose, (event, data) => {
                 if (this.overlayConfigured())
                     this.overlayClose();
             });
         };
+        /**
+         * Reset the main menu
+         * @date 8/8/2023 - 9:42:21 AM
+         */
         this.mainClear = () => {
             this.mainMenu = undefined;
             this.mainMenuItems = [];
         };
+        /**
+         * Overlay reset
+         * @depricated
+         * @date 8/8/2023 - 9:42:21 AM
+         */
         this.overlayClear = () => {
             this.overlay = undefined;
             this.overlayMenu = undefined;
             this.overlayMenuItems = [];
         };
+        /**
+         * Search a sub menu for a specific role
+         * @date 8/8/2023 - 9:42:21 AM
+         *
+         * @param {string} role
+         * @param {*} submenu
+         * @returns {boolean}
+         */
         this.submenuSearchRole = (role, submenu) => {
             let found = false;
             submenu.forEach(item => {
@@ -33,11 +71,25 @@ class menu {
             });
             return found;
         };
+        /**
+         * Add an item to a sub menu
+         * @date 8/8/2023 - 9:42:21 AM
+         *
+         * @param {(Menu | Electron.MenuItemConstructorOptions[])} submenu
+         * @param {Electron.MenuItemConstructorOptions} item
+         * @returns {(Menu | Electron.MenuItemConstructorOptions[])}
+         */
         this.submenuItemAdd = (submenu, item) => {
             let submenuTmp = submenu;
             submenuTmp.push(item);
             return submenuTmp;
         };
+        /**
+         * Default overlay menu items
+         * @date 8/8/2023 - 9:42:20 AM
+         *
+         * @returns {(Electron.MenuItemConstructorOptions | MenuItem)[]}
+         */
         this.overlayMenuItemsDefault = () => {
             let menu = [
                 {
@@ -74,6 +126,14 @@ class menu {
             }
             return menu;
         };
+        /**
+         * Menu option handler
+         * @date 8/8/2023 - 9:42:20 AM
+         *
+         * @param {TOptionTypesEnum} option
+         * @param {?TResolution} [resolutionOverride]
+         * @param {?(Electron.MenuItemConstructorOptions | MenuItem)[]} [menuItemsOverride]
+         */
         this.optionHandler = (option, resolutionOverride, menuItemsOverride) => {
             switch (option) {
                 case common_enums_1.optionTypesEnum.enum.about:
@@ -85,16 +145,34 @@ class menu {
                     break;
             }
         };
+        /**
+         * Offset for the overlay display on the x-axis
+         * @date 8/8/2023 - 9:42:20 AM
+         *
+         * @param {number} width
+         * @returns {number}
+         */
         this.offsetX = (width) => {
             if (width === this.settings.resolution.width)
                 return 0;
             return (this.settings.resolution.width - width) / 2;
         };
+        /**
+         * Offset for the overlay display on the y-axis
+         * @date 8/8/2023 - 9:42:20 AM
+         *
+         * @param {number} height
+         * @returns {number}
+         */
         this.offsetY = (height) => {
             if (height === this.settings.resolution.height)
                 return 0;
             return (this.settings.resolution.height - height) / 2;
         };
+        /**
+         * Creation of the main menu items
+         * @date 8/8/2023 - 9:42:20 AM
+         */
         this.mainMenuCreate = () => {
             this.mainClear();
             this.mainMenuItems = [
@@ -126,7 +204,22 @@ class menu {
             ];
             this.mainMenu = electron_1.Menu.buildFromTemplate(this.mainMenuItems);
         };
+        /**
+         * Retrieve the main menu
+         * @date 8/8/2023 - 9:42:20 AM
+         *
+         * @returns {(Menu | undefined)}
+         */
         this.mainMenuGet = () => this.mainMenu;
+        /**
+         * Loading of an overlay item
+         * @date 8/8/2023 - 9:42:20 AM
+         *
+         * @param {string} contentLocation
+         * @param {?boolean} [transparentBg]
+         * @param {?TResolution} [res]
+         * @param {?(Electron.MenuItemConstructorOptions | MenuItem)[]} [menuItems]
+         */
         this.overlayLoad = (contentLocation, transparentBg, res, menuItems) => {
             if (this.overlayConfigured())
                 this.overlayClose();
@@ -154,9 +247,31 @@ class menu {
                 this.overlay.on('closed', () => this.overlayClose());
             }
         };
+        /**
+         * Is the overlay window configured?
+         * @date 8/8/2023 - 9:42:19 AM
+         *
+         * @returns {boolean}
+         */
         this.overlayConfigured = () => this.overlay !== undefined;
+        /**
+         * Close the overlay window
+         * @date 8/8/2023 - 9:42:19 AM
+         */
         this.overlayClose = () => this.overlay = undefined;
+        /**
+         * Get the overlay window instance
+         * @date 8/8/2023 - 9:42:19 AM
+         *
+         * @returns {(BrowserWindow | undefined)}
+         */
         this.overlayGet = () => this.overlay;
+        /**
+         * Is the device anapple/mac device?
+         * @date 8/8/2023 - 9:42:19 AM
+         *
+         * @returns {boolean}
+         */
         this.isApple = () => this.isMac;
         this.mainMenuItems = [];
         this.overlayMenuItems = [];
