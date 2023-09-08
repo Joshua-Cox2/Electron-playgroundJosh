@@ -112,5 +112,18 @@ export class api {
             this.application.close()
             res.json(response)
         })
+        this.apiApp.get('/load/dataJson', (req: express.Request, res: express.Response) => {
+            let response: TResponseBase = this.responseDefault()
+            response.error = false
+            response.errorMsg = ''
+            let located: boolean = false
+            // INFO: Check if the data.json file exists within the template directory
+            // HACK: Return error for now. This will be changed when the file retrieval and check is implemented
+            if (!located) {
+                response.error = true
+                response.errorMsg = 'loading and checking of data.json to be implemented'
+            }
+            res.json(response)
+        })
     }
 }
