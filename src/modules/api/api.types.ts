@@ -19,3 +19,13 @@ export const responseBase = z.object({
  * @typedef {TResponseBase}
  */
 export type TResponseBase = z.infer<typeof responseBase>
+
+/**
+ * Data.json response type
+ *
+ * @export
+ * @typedef {TResponseDataJson}
+ */
+export type TResponseDataJson = TResponseBase & {
+    data: any
+}

@@ -101,16 +101,26 @@ class api {
                 res.json(response);
             });
             this.apiApp.get('/load/dataJson', (req, res) => {
-                let response = this.responseDefault();
-                response.error = false;
-                response.errorMsg = '';
-                let located = false;
+                let response = {
+                    error: false,
+                    errorMsg: '',
+                    data: undefined
+                };
                 // INFO: Check if the data.json file exists within the template directory
-                // HACK: Return error for now. This will be changed when the file retrieval and check is implemented
-                if (!located) {
+                if (this.settings.templateDir === undefined || this.settings.templateDir === "") {
                     response.error = true;
-                    response.errorMsg = 'loading and checking of data.json to be implemented';
+                    response.errorMsg = 'Template is not declared. Unable to load the json data.';
                 }
+                if (!response.error && !this.helper.fileExists(this.settings.templateDir)) {
+                    response.error = true;
+                    response.errorMsg = 'Template directory could nt be located. Unable to load the json data.';
+                }
+                if (!response.error && !this.helper.fileExists(`${this.settings.templateDir}/data.json`)) {
+                    response.error = true;
+                    response.errorMsg = 'Jason data was not found within the template folder';
+                }
+                if (!response.error)
+                    response.data = JSON.parse(this.helper.loadFile(`${this.settings.templateDir}/data.json`).replace('var clientData =', ''));
                 res.json(response);
             });
         };
