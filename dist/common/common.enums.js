@@ -13,9 +13,9 @@ exports.environmentEnum = zod_1.z.enum(['development', 'production']);
  * Overlay Options Array
  * @date 8/8/2023 - 9:42:47 AM
  *
- * @type {readonly ["about"]}
+ * @type {readonly ["about", "overview"]}
  */
-const OPTIONTYPES = ['about'];
+const OPTIONTYPES = ['about', 'overview'];
 /**
  * IPC Actions Array
  * @date 8/8/2023 - 9:42:47 AM
@@ -35,6 +35,10 @@ var optionTemplate;
      * About module template
      */
     optionTemplate["about"] = "about/about.page.html";
+    /**
+     * Overview module template
+     */
+    optionTemplate["overview"] = "submodules/apollo/build/index.html";
 })(optionTemplate || (optionTemplate = {}));
 /**
  * Overlay content reference ENUM - ZOD

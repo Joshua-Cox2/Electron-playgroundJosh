@@ -108,17 +108,6 @@ export class menu {
     }
 
     /**
-     * Overlay reset
-     * @depricated
-     * @date 8/8/2023 - 9:42:21 AM
-     */
-    private overlayClear = (): void => {
-        this.overlay = undefined
-        this.overlayMenu = undefined
-        this.overlayMenuItems = []
-    }
-
-    /**
      * Search a sub menu for a specific role
      * @date 8/8/2023 - 9:42:21 AM
      *
@@ -209,6 +198,10 @@ export class menu {
             case optionTypesEnum.enum.about:
                 this.overlayLoad(join(__dirname, '../', optionTemplateEnum.enum.about), true, resolutionOverride, menuItemsOverride)
                 break
+            case optionTypesEnum.enum.overview:
+                this.helper.log('optionHandler', 'overview path', optionTemplateEnum.enum.overview)
+                this.helper.log('optionHandler', 'overview __dirname', __dirname)
+                this.overlayLoad(join(__dirname, '../../../', optionTemplateEnum.enum.overview), true, resolutionOverride, menuItemsOverride)
             default:
                 if (this.overlayConfigured())
                     this.overlayClose()
@@ -271,6 +264,11 @@ export class menu {
                         label: 'About',
                         accelerator: this.isMac ? 'Alt+Cmd+A' : 'Ctrl+Alt+A',
                         click: () => this.optionHandler(optionTypesEnum.Enum.about)
+                    },
+                    {
+                        label: 'Overview',
+                        accelerator: this.isMac ? 'Alt+Cmd+O' : 'Ctrl+Alt+O',
+                        click: () => this.optionHandler(optionTypesEnum.Enum.overview)
                     }
                 ]
             }
