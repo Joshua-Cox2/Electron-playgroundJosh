@@ -6,7 +6,7 @@ import { optionTemplateEnum } from "../../common/common.enums"
 import { TSettings } from "../../common/common.types"
 import { menu } from "../menu/menu"
 import { TResponseBase, TResponseDataJson, responseBase } from "./api.types"
-
+import cors from 'cors'
 /**
  * API Class
  * @date 8/8/2023 - 9:42:31 AM
@@ -37,6 +37,7 @@ export class api {
      */
     constructor(private settings: TSettings, private helper: common, private application: BrowserWindow, private menus: menu) {
         this.apiApp = express()
+        this.apiApp.use(cors())
         this.routes()
         this.listen()
     }

@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const path_1 = require("path");
 const common_enums_1 = require("../../common/common.enums");
 const api_types_1 = require("./api.types");
+const cors_1 = __importDefault(require("cors"));
 /**
  * API Class
  * @date 8/8/2023 - 9:42:31 AM
@@ -125,6 +126,7 @@ class api {
             });
         };
         this.apiApp = (0, express_1.default)();
+        this.apiApp.use((0, cors_1.default)());
         this.routes();
         this.listen();
     }
