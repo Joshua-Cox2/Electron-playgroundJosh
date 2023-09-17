@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product and Deal Marquee Display</title>
+    <link rel="stylesheet" href="assets/main.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico?v=3" />
+    <base href="./" />
+</head>
+
+<body ng-app="productsMarquee" ng-controller="masterController" ng-strict-di style="background-color: #000;">
+    <div id="loadingPage" style="height: 100vh; width: 100vw; background-color: #000;" ng-hide="masterLoaded"></div>
+    <div id="main" class="container-fluid bg-dark padding-0 " ng-if="masterLoaded" ng-cloak>
+        <div id="view" class="" ng-view>
+            <div class="row  bg-dark" id="error-page" ng-if="loadingError">
+                <div class="col-12 col-lg-12 text-center d-flex align-middle justify-content-center" id="error-column">
+                    <span id="error-message">
+                        <h1 class="text-danger">ERROR</h1>
+                    </span>
+                </div>
+            </div>
+            <div id="products-marquee" class="row bg-black" ng-if="!loadingError">
+                <div class="col-12 col-md-12 bg-light-gray padding-0" id="marquee-container">
+                    <slick settings="slickConfig" id="slickContainer">
+                        <div class="itemImageContainer" ng-repeat="item in products">
+                            <img ng-if="item.type == 'deal'" ng-src="../../content/deals/{{item.fileName}}" alt="{{item.type}}{{item.id}} image" class="padding-0-2 itemImage" ng-click="selectItem(item.type, item.id)">
+                            <img ng-if="item.type == 'product'" ng-src="../../content/products/{{item.fileName}}" alt="{{item.type}}{{item.id}} image" class="padding-0-2 itemImage" ng-click="selectItem(item.type, item.id)">
+                        </div>
+                    </slick>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../data.json" charset="utf-8"></script>
+<script src="assets/main.js"></script>
+
+</html>

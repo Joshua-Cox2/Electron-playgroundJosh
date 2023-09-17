@@ -1,0 +1,21 @@
+body {
+    margin: 0px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    -webkit-perspective: 1920px;
+    perspective: 1920px;
+    cursor: none;
+    background-color: white;
+    -o-transition: opacity 1s;
+  transition: opacity 1s;
+  -webkit-transition: opacity 1s;
+  opacity: 1;
+    
+}
+
+iframe {
+    border: 0px;
+    position: absolute
+}

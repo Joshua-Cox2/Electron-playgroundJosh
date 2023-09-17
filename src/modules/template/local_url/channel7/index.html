@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="favicon.ico?v=3" />
+    <title>Channel 7</title>
+</head>
+
+<body>
+    <!-- CSS  -->
+    <script src="../../data.json" charset="utf-8"></script>
+    <link href="css/video.css" rel="stylesheet">
+    <style media="screen">
+        html {
+            background-color: #000000;
+        }
+        body {
+            margin: 0;
+        }
+        .vjs-text-track-display,
+        .vjs-subs-caps-button {
+            display: none;
+        }
+    </style>
+    <!-- HTML -->
+    <video id='hls-example' class="video-js" preload='auto'>
+    </video>
+    <script src='js/video.js'></script>
+    <script>
+        // list of streams
+        // https://docs.google.com/spreadsheets/d/1B-1NFj-xO1s6zeiZVCwfrChnu8ANjcfAVMLOU2JmZMY/edit#gid=0
+        var options = {
+            autoplay: true,
+            muted: false,
+            sources: {
+                src: "https://network10sec-live-me.akamaized.net/hls/live/735554/10NSW/stream.m3u8",
+                type: "application/x-mpegURL"
+            },
+            width: clientData.screen.screen_width,
+            height: clientData.screen.screen_height
+        };
+
+        var player = videojs('hls-example', options);
+        player.ready(function() {
+            setTimeout(function() {
+                player.autoplay(true);
+            }, 1000);
+        });
+        // });
+    </script>
+
+</html>

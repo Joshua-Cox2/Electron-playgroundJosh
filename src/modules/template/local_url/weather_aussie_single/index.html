@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aussie Home Loans Single Screen Weather</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body>
+    <div class="container hidden">
+        <div class="container__location container__location--lans">
+            <div class="container__location--logo">
+                <img src="assets/img/logo.png" alt="Aussie">
+            </div>
+            <div class="container__location--label"></div>
+        </div>
+        <div class="container__location container__location--port hidden">
+            <div class="container__location--logo">
+                <img src="assets/img/logo.png" alt="Aussie">
+            </div>
+            <div class="container__location--label">Local Weather</div>
+        </div>
+        <div class="container__details container__details--lans">
+            <div class="card card--current" id="current--lans">
+                <div class="card--current--contents">
+                    <div class="card--current--day">TODAY</div>
+                    <div class="card--current--split">
+                        <div class="card--current--left left--small">
+                            <div class="card--current--now" id="current__temp--lans"></div>
+                            <div class="card--current--status" id="current__status--lans"></div>
+                        </div>
+                        <div class="card--current--right right--small">
+                            <div class="card--current--icon" id="current__icon--lans"></div>
+                        </div>
+                    </div>
+                    <div class="card--current--split">
+                        <div class="card--current--left">
+                            <div class="card--current--temp">
+                                <div class="temp__min--label">Min</div>
+                                <div class="temp__min--value" id="current__min--lans"></div>
+                            </div>
+                        </div>
+                        <div class="card--current--right">
+                            <div class="card--current--temp">
+                                <div class="temp__max--label">Max</div>
+                                <div class="temp__max--value" id="current__max--lans"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" id="one--lans">
+                <div class="card__summary">
+                    <div class="card__summary--icon" id="one__icon--lans"></div>
+                </div>
+                <div class="card__contents">
+                    <div class="card__contents--day" id="one__day--lans"></div>
+                    <div class="card__contents--status" id="one__status--lans"></div>
+                    <div class="card__contents--temp">
+                        <div class="temp__min--label">Min</div>
+                        <div class="temp__min--value" id="one__min--lans"></div>
+                    </div>
+                    <div class="card__contents--temp">
+                        <div class="temp__max--label">Max</div>
+                        <div class="temp__max--value" id="one__max--lans"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" id="two--lans">
+                <div class="card__summary">
+                    <div class="card__summary--icon" id="two__icon--lans"></div>
+                </div>
+                <div class="card__contents">
+                    <div class="card__contents--day" id="two__day--lans"></div>
+                    <div class="card__contents--status" id="two__status--lans"></div>
+                    <div class="card__contents--temp">
+                        <div class="temp__min--label">Min</div>
+                        <div class="temp__min--value" id="two__min--lans"></div>
+                    </div>
+                    <div class="card__contents--temp">
+                        <div class="temp__max--label">Max</div>
+                        <div class="temp__max--value" id="two__max--lans"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container__details container__details--port hidden">
+            <div class="card card__current" id="current--port">
+                <div class="card__current--top">
+                    <div class="card__current__summary">
+                        <div class="card__current__summary--day">NOW</div>
+                        <div class="card__current__summary--value" id="current__temp--port"></div>
+                        <div class="card__current__summary--status" id="current__status--port"></div>
+                    </div>
+                    <div class="card__current__icon" id="current__icon--port"></div>
+                </div>
+                <div class="card__current__details">
+                    <div class="card__current__temp">
+                        <div class="card__current__temp--label">Max</div>
+                        <div class="card__current__temp--value" id="current__max--port"></div>
+                    </div>
+                    <div class="card__current__temp">
+                        <div class="card__current__temp--label">Min</div>
+                        <div class="card__current__temp--value" id="current__min--port"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" id="one--port">
+                <div class="card__summary">
+                    <div class="card__summary--day" id="one__day--port"></div>
+                    <div class="card__summary--status" id="one__status--port"></div>
+                </div>
+                <div class="card__details">
+                    <div class="card__details--value">
+                        <div class="card__details--temp">
+                            <div class="temp__min--label">Min</div>
+                            <div class="temp__min--value" id="one__min--port"></div>
+                        </div>
+                        <div class="card__details--temp mb-s">
+                            <div class="temp__max--label">Max</div>
+                            <div class="temp__max--value" id="one__max--port"></div>
+                        </div>
+                    </div>
+                    <div class="card__details--icon" id="one__icon--port">
+                        <img src="assets/icons/rain.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="card" id="two--port">
+                <div class="card__summary">
+                    <div class="card__summary--day" id="two__day--port"></div>
+                    <div class="card__summary--status" id="two__status--port"></div>
+                </div>
+                <div class="card__details">
+                    <div class="card__details--value">
+                        <div class="card__details--temp">
+                            <div class="temp__min--label">Min</div>
+                            <div class="temp__min--value" id="two__min--port"></div>
+                        </div>
+                        <div class="card__details--temp mb-s">
+                            <div class="temp__max--label">Max</div>
+                            <div class="temp__max--value" id="two__max--port"></div>
+                        </div>
+                    </div>
+                    <div class="card__details--icon" id="two__icon--port">
+                        <img src="assets/icons/thunder.svg" alt="">
+                    </div>
+                </div>
+            </div>
+            <div class="card" id="three--port">
+                <div class="card__summary">
+                    <div class="card__summary--day" id="three__day--port"></div>
+                    <div class="card__summary--status" id="three__status--port"></div>
+                </div>
+                <div class="card__details">
+                    <div class="card__details--value">
+                        <div class="card__details--temp">
+                            <div class="temp__min--label">Min</div>
+                            <div class="temp__min--value" id="three__min--port"></div>
+                        </div>
+                        <div class="card__details--temp mb-s">
+                            <div class="temp__max--label">Max</div>
+                            <div class="temp__max--value" id="three__max--port"></div>
+                        </div>
+                    </div>
+                    <div class="card__details--icon" id="three__icon--port"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="../../data.json" charset="utf-8"></script>
+<script data-main="assets/js/require.config" src="assets/js/require.js"></script>

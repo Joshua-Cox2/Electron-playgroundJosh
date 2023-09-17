@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="favicon.ico?v=3" />
+    <title>Weather Dark LED</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body class="">
+    <div class="container-fluid padding-0" id="main">
+        <div id="carousel" class="carousel slide">
+            <div class="carousel-inner">
+                <div id="currentContainer" class="weatherSlideCard carousel-item active">
+                    <div class="row w-100">
+                        <div class="col-12 weather-icon-display led-container icon-container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="icon sun-shower hide">
+                                        <div class="cloud"></div>
+                                        <div class="sun">
+                                            <div class="rays"></div>
+                                        </div>
+                                        <div class="rain"></div>
+                                    </div>
+                                    <div class="icon thunder-storm hide">
+                                        <div class="cloud"></div>
+                                        <div class="lightning">
+                                            <div class="bolt"></div>
+                                            <div class="bolt"></div>
+                                        </div>
+                                    </div>
+                                    <div class="icon cloudy hide">
+                                        <div class="cloud"></div>
+                                        <div class="cloud"></div>
+                                    </div>
+                                    <div class="icon smoke hide">
+                                        <span class="s0"></span>
+                                        <span class="s1"></span>
+                                        <span class="s2"></span>
+                                        <span class="s3"></span>
+                                        <span class="s4"></span>
+                                        <span class="s5"></span>
+                                        <span class="s6"></span>
+                                        <span class="s7"></span>
+                                        <span class="s8"></span>
+                                        <span class="s9"></span>
+                                    </div>
+                                    <div class="icon flurries hide">
+                                        <div class="cloud"></div>
+                                        <div class="snow">
+                                            <div class="flake"></div>
+                                            <div class="flake"></div>
+                                        </div>
+                                    </div>
+                                    <div class="icon sunny hide">
+                                        <div class="sun">
+                                            <div class="rays"></div>
+                                        </div>
+                                    </div>
+                                    <div class="icon rainy hide">
+                                        <div class="cloud"></div>
+                                        <div class="rain"></div>
+                                    </div>
+                                    <div class="icon night hide">
+                                        <div class="moon"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center text-white led-container text-container">
+                            <div class="outer">
+                                <div class="middle">
+                                    <div class="inner">
+                                        <div class="row">
+                                            <div class="col-12 text-center text-white">
+                                                <div id="current-time">NOW</div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div id="current-temp">
+                                                    <span id="now-temp"></span><i class="wi wi-celsius"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 text-center text-white">
+                                                <div id="current-description"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="forecastContainer" class="weatherSlideCard carousel-item">
+                    <div class="row w-100">
+                        <div class="col-12 weather-icon-display led-container icon-container">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="icon sun-shower hide">
+                                        <div class="cloud"></div>
+                                        <div class="sun">
+                                            <div class="rays"></div>
+                                        </div>
+                                        <div class="rain"></div>
+                                    </div>
+                                    <div class="icon thunder-storm hide">
+                                        <div class="cloud"></div>
+                                        <div class="lightning">
+                                            <div class="bolt"></div>
+                                            <div class="bolt"></div>
+                                        </div>
+                                    </div>
+                                    <div class="icon cloudy hide">
+                                        <div class="cloud"></div>
+                                        <div class="cloud"></div>
+                                    </div>
+                                    <div class="icon flurries hide">
+                                        <div class="cloud"></div>
+                                        <div class="snow">
+                                            <div class="flake"></div>
+                                            <div class="flake"></div>
+                                        </div>
+                                    </div>
+                                    <div class="icon sunny hide">
+                                        <div class="sun">
+                                            <div class="rays"></div>
+                                        </div>
+                                    </div>
+                                    <div class="icon rainy hide">
+                                        <div class="cloud"></div>
+                                        <div class="rain"></div>
+                                    </div>
+                                    <div class="icon night hide">
+                                        <div class="moon"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 text-center text-white led-container text-container">
+                            <div class="outer">
+                                <div class="middle">
+                                    <div class="inner">
+                                        <div class="row">
+                                            <div class="col-12 text-center text-white">
+                                                <div id="forecast-time">TOMORROW</div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div id="forecast-temp">
+                                                    <span class="text-primary" id="lowTempLabel">Low </span>
+                                                    <span id="low-temp"></span>
+                                                    <i class="wi wi-celsius"></i>
+                                                    <span id="lowHighSpace">&nbsp;</span>
+                                                    <span class="text-danger" id="highTempLabel">High </span>
+                                                    <span id="high-temp"></span>
+                                                    <i class="wi wi-celsius"></i>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 text-center text-white">
+                                                <div id="forecast-description"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../data.json" charset="utf-8"></script>
+<script src="assets/js/main-dist.js" charset="utf-8"></script>
+
+</html>

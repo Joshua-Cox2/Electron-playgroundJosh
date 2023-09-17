@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product and Deal Ordering System</title>
+    <link rel="stylesheet" href="assets/main.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico?v=3" />
+    <base href="./" />
+</head>
+
+<body ng-app="orderSystem" ng-controller="masterController" ng-strict-di>
+    <div id="loadingPage" style="height: 100vh; width: 100vw; background-color: #000;" ng-hide="masterLoaded"></div>
+    <div id="main" class="container-fluid h-100 bg-dark padding-0" ng-if="masterLoaded" ng-cloak>
+        <div id="view" class="h-100" ng-view>
+            <div class="row h-100 bg-dark" id="error-page" ng-if="loadingError">
+                <div class="col-12 col-lg-12 text-center d-flex align-middle justify-content-center" id="error-column">
+                    <span id="error-message">
+                        <h1 class="text-danger">ERROR</h1>
+                        <h2 class="text-warning">Unable to locate the deal</h2>
+                    </span>
+                </div>
+            </div>
+            <div id="order-page" class="row h-100 bg-white" ng-if="!loadingError">
+                <div id="dealPortrait" class="h-100 w-100" ng-if="information.type == 'deal' && display" ng-show="displayConfig.orientation == 'portrait'">
+                    <!-- Deal Landing Page -->
+                    <div class="col-12 col-lg-12 landingPage padding-0 h-100 content-height bg-light" ng-if="dealInformation.previousId == -1 && dealInformation.currentId == 0">
+                        <div class="full-image h-100">
+                            <img class="full-image-img" ng-src="../../content/deals/{{information.obj.file_name_unique}}" alt="{{dealInformation.currentNode.name}}">
+                        </div>
+                    </div>
+                    <!-- Deal Standard Items Page -->
+                    <div class="col-12 col-lg-12 bg-light-gray h-100 content-height" ng-if="dealInformation.currentId>= 2">
+                        <div class="row justify-content-center text-center font-weight-bold">
+                            <div class="col-12 col-md-12">
+                                <h1 class="text-primary font-5 font-weight-bold margin-top-2">
+                                    {{dealInformation.currentNode.node.name | titlecase}}
+                                </h1>
+                            </div>
+                            <div class="col-12 col-md-12">
+                                <h2 class="text-secondary font-2 margin-bottom-2 font-weight-bold">
+                                    {{dealInformation.currentNode.node.description | uppercase}}
+                                </h2>
+                            </div>
+                            <div class="col-12 col-md-12" ng-if="dealInformation.currentNode.node.outputConnectors.length == 2">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-6" ng-repeat="option in dealInformation.currentNode.node.outputConnectors">
+                                        <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                            <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                {{option.name | titlecase}}
+                                            </div>
+                                            <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                {{option.description | titlecase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12" ng-if="dealInformation.currentNode.node.outputConnectors.length == 3">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-6" ng-repeat="option in dealInformation.currentNode.node.outputConnectors">
+                                        <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                            <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                {{option.name | titlecase}}
+                                            </div>
+                                            <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                {{option.description | titlecase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-10" ng-if="dealInformation.currentNode.node.outputConnectors.length == 4">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-6" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index <=1">
+                                        <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                            <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <div class="font-weight-bold padding-0-5" data-fittext>
+                                                {{option.name | titlecase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-6" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index >= 2 && $index <= 3">
+                                        <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                            <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                {{option.name | titlecase}}
+                                            </div>
+                                            <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                {{option.description | titlecase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-10" ng-if="dealInformation.currentNode.node.outputConnectors.length >= 5">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-6" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index <=1">
+                                        <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                            <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                {{option.name | titlecase}}
+                                            </div>
+                                            <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                {{option.description | titlecase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-6" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index >= 2 && $index <= 3">
+                                        <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                            <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                {{option.name | titlecase}}
+                                            </div>
+                                            <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                {{option.description | titlecase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-6" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index >= 4 && $index <= 5">
+                                        <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                            <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                            <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                {{option.name | titlecase}}
+                                            </div>
+                                            <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                {{option.description | titlecase}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Deal Ending and confirmation pages -->
+                    <div id="receipt" class="col-12 col-lg-12 bg-light-gray h-100 content-height" ng-if="showReceipt">
+                        <div class="row text-center font-weight-bold justify-content-center">
+                            <div class="receipt col-12 col-md-8 margin-top-6">
+                                <div id="receiptHeader" class="row text-center font-weight-bold justify-content-center">
+                                    <div class="col-12 col-md-12">
+                                        <h1 class="text-primary font-5 margin-top-3 font-weight-bold">
+                                            Thank you
+                                        </h1>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                        <h2 class="text-secondary font-2 margin-bottom-3 font-weight-bold">
+                                            YOUR ORDER SUMMARY
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div class="row text-center font-weight-bold justify-content-center margin-bottom-1" ng-if="clientData.screen.pump_number">
+                                    <div class="col-12 col-md-12">
+                                        <h3 class="receipt__pump">
+                                            PUMP {{clientData.screen.pump_number}}
+                                        </h3>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                        <h4 class="receipt__pump">
+                                            {{currentDateTime | date:'medium'}}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <ul class="receipt__lines">
+                                    <li ng-repeat="item in order.items">
+                                        <span class="receipt__line" ng-if="item.showReceipt">
+                                            <span class="receipt__line__item">{{item.name}}</span>
+                                        <span class="receipt__line__price">{{item.price | currency}}</span>
+                                        </span>
+                                        <div class="receipt__line__options row justify-content-end" ng-if="item.options.length > 0" ng-repeat="option in item.options" ng-if="option.showReceipt">
+                                            <div class="receipt__line__options__item col-8 text-left">
+                                                {{option.name}}
+                                            </div>
+                                            <div class="receipt__line__options__price col-2 text-right">
+                                                {{option.price | currency}}
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <p class="receipt__total">
+                                    <span class="receipt__total__item">Total</span>
+                                    <span class="receipt__total__price">{{order.total | currency}}</span>
+                                </p>
+                                <div id="receiptConfirm" class="row text-center font-weight-bold justify-content-center">
+                                    <div class="col-10 col-md-10" ng-if="pendingConfirm">
+                                        <div class="btn btn-block btn-success font-2-5 font-weight-bold margin-top-1 margin-bottom-1 padding-1" ng-click="confirmOrder()">
+                                            Confirm Order
+                                        </div>
+                                    </div>
+                                    <div class="col-10 col-md-10 text-success font-weight-bold font-1-5" ng-if="!pendingConfirm">
+                                        <h3>
+                                            Please proceed to cafe/counter to pay for and collect your order
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Landing page option buttons -->
+                    <div ng-if="dealInformation.previousId == -1 && dealInformation.currentId == 0">
+                        <div class="row justify-content-center bg-light" id="bottomNavigation">
+                            <div class="col-12 col-md-12 fit-content padding-top-0-7">
+                                <div class="row justify-content-center">
+                                    <div class="col-12 col-md-4 fit-content" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ">
+                                        <div ng-if=" option.name !='default' " class=" btn btn-block btn-adverto font-weight-bold font-1-7 padding-top-0-7 padding-bottom-0-7 " ng-click="dealItemClicked(dealInformation.currentId, $index) " data-fittext>
+                                            {{option.name | titlecase}}
+                                        </div>
+                                        <div ng-if=" option.name=='default' " class=" btn btn-block btn-adverto font-weight-bold font-1-7 padding-top-0-7 padding-bottom-0-7 " ng-click="dealItemClicked(dealInformation.currentId, $index) " data-fittext>
+                                            Click to Order
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-12 col-md-12 fit-content ">
+                                <div class=" row justify-content-center ">
+                                    <div class=" col-12 col-md-4 fit-content ">
+                                        <div class=" btn btn-block btn-danger font-weight-bold font-1 padding-top-0-5 padding-bottom-0-5 " ng-click="closeOrder() " data-fittext>
+                                            Cancel
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Deal option buttons -->
+                    <div class="w-100 bg-light " id="bottomNavigation " ng-if="dealInformation.currentId>= 1">
+                                        <div id="optionButtonContainer">
+                                            <div class="row row justify-content-center">
+                                                <div class="col-12 col-md-4 fit-content nonLandingBtn padding-top-0-7" ng-show="pendingConfirm">
+                                                    <div class="btn btn-block btn-info font-weight-bold font-1-7 padding-top-0-7 padding-bottom-0-7" ng-click="goBack()" data-fittext>
+                                                        Back
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-4 fit-content nonLandingBtn padding-top-0-7" ng-show="pendingConfirm">
+                                                    <div class="btn btn-block btn-danger font-weight-bold font-1-5 padding-top-0-7 padding-bottom-0-7" ng-click="confirmCancel()" data-fittext>
+                                                        Cancel
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="dealLandscape" class="h-100 w-100" ng-if="information.type == 'deal' && display" ng-show="displayConfig.orientation == 'landscape'">
+                                    <div id="leftContainer">
+                                        <!-- Deal Landing Page -->
+                                        <div class="col-12 col-lg-12 landingPage padding-0 h-100 content-height bg-light" ng-if="dealInformation.previousId == -1 && dealInformation.currentId == 0">
+                                            <div class="full-image h-100">
+                                                <img class="full-image-img" ng-src="../../content/deals/{{information.obj.file_name_unique}}" alt="{{dealInformation.currentNode.name}}">
+                                            </div>
+                                        </div>
+                                        <!-- Deal Standard Items Page -->
+                                        <div class="col-12 col-lg-12 bg-light-gray h-100 content-height" ng-if="dealInformation.currentId>= 2">
+                                            <div class="row justify-content-center text-center font-weight-bold">
+                                                <div class="col-12 col-md-12">
+                                                    <h1 class="text-primary font-5 font-weight-bold margin-top-2">
+                                                        {{dealInformation.currentNode.node.name | titlecase}}
+                                                    </h1>
+                                                </div>
+                                                <div class="col-12 col-md-12">
+                                                    <h2 class="text-secondary font-2 margin-bottom-2 font-weight-bold">
+                                                        {{dealInformation.currentNode.node.description | uppercase}}
+                                                    </h2>
+                                                </div>
+                                                <div class="col-12 col-md-11" ng-if="dealInformation.currentNode.node.outputConnectors.length == 2">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12 col-md-4" ng-repeat="option in dealInformation.currentNode.node.outputConnectors">
+                                                            <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                                                <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                                    {{option.name | titlecase}}
+                                                                </div>
+                                                                <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                                    {{option.description | titlecase}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-11" ng-if="dealInformation.currentNode.node.outputConnectors.length == 3">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12 col-md-4" ng-repeat="option in dealInformation.currentNode.node.outputConnectors">
+                                                            <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                                                <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                                    {{option.name | titlecase}}
+                                                                </div>
+                                                                <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                                    {{option.description | titlecase}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-11" ng-if="dealInformation.currentNode.node.outputConnectors.length == 4">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12 col-md-4" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index <=1">
+                                                            <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                                                <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                                    {{option.name | titlecase}}
+                                                                </div>
+                                                                <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                                    {{option.description | titlecase}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12 col-md-4" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index >= 2 && $index <= 3">
+                                                            <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                                                <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                                    {{option.name | titlecase}}
+                                                                </div>
+                                                                <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                                    {{option.description | titlecase}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-11" ng-if="dealInformation.currentNode.node.outputConnectors.length >= 5">
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12 col-md-4" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index <=2">
+                                                            <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                                                <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                                    {{option.name | titlecase}}
+                                                                </div>
+                                                                <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                                    {{option.description | titlecase}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row justify-content-center">
+                                                        <div class="col-12 col-md-4" ng-repeat="option in dealInformation.currentNode.node.outputConnectors" ng-if="$index >= 3 && $index <= 5">
+                                                            <div class="btn btn-block btn-adverto-item margin-bottom-1" ng-click="dealItemClicked(dealInformation.currentId, $index)">
+                                                                <img ng-if="option.images.childUsed && option.images.fileName != '' && !dealInformation.currentNode.node.product.productNodeId" ng-src="../../content/deals/products/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <img ng-if="option.images.fileName != '' && !option.images.childUsed" ng-src="../../content/deals/options/{{option.images.fileName}}" alt="{{option.name}} image">
+                                                                <div class="font-weight-bold padding-0-5 font-1" data-fittext>
+                                                                    {{option.name | titlecase}}
+                                                                </div>
+                                                                <div class="font-weight-bold font-0-7" data-fittext ng-show="option.description != ''">
+                                                                    {{option.description | titlecase}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Deal Ending and confirmation pages -->
+                                        <div id="receipt" class="col-12 col-lg-12 bg-light-gray h-100 content-height" ng-if="showReceipt">
+                                            <div class="row text-center font-weight-bold justify-content-center">
+                                                <div class="receipt col-12 col-md-5 margin-top-3">
+                                                    <div id="receiptHeader" class="row text-center font-weight-bold justify-content-center">
+                                                        <div class="col-12 col-md-12">
+                                                            <h1 class="text-primary font-4 margin-top-1 font-weight-bold">
+                                                                Thank you
+                                                            </h1>
+                                                        </div>
+                                                        <div class="col-12 col-md-12">
+                                                            <h2 class="text-secondary font-2 margin-bottom-1 font-weight-bold">
+                                                                YOUR ORDER SUMMARY
+                                                            </h2>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row text-center font-weight-bold justify-content-center" ng-if="clientData.screen.pump_number">
+                                                        <div class="col-12 col-md-12">
+                                                            <h3 class="receipt__pump">
+                                                                PUMP {{clientData.screen.pump_number}}
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                    <ul class="receipt__lines">
+                                                        <li ng-repeat="item in order.items">
+                                                            <span class="receipt__line" ng-if="item.showReceipt">
+                                                                <span class="receipt__line__item">{{item.name}}</span>
+                                                            <span class="receipt__line__price">{{item.price | currency}}</span>
+                                                            </span>
+                                                            <div class="receipt__line__options row justify-content-end" ng-if="item.options.length > 0" ng-repeat="option in item.options" ng-if="option.showReceipt">
+                                                                <div class="receipt__line__options__item col-8 text-left">
+                                                                    {{option.name}}
+                                                                </div>
+                                                                <div class="receipt__line__options__price col-2 text-right">
+                                                                    {{option.price | currency}}
+                                                                </div>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    <p class="receipt__total">
+                                                        <span class="receipt__total__item">Total</span>
+                                                        <span class="receipt__total__price">{{order.total | currency}}</span>
+                                                    </p>
+                                                    <div id="receiptConfirm" class="row text-center font-weight-bold justify-content-center">
+                                                        <div class="col-6 col-md-6" ng-if="pendingConfirm">
+                                                            <div class="btn btn-block btn-success font-1-5 font-weight-bold margin-top-0-5 margin-bottom-05 padding-0-5" ng-click="confirmOrder()">
+                                                                Confirm Order
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-10 col-md-10 text-success font-weight-bold font-1-5" ng-if="!pendingConfirm">
+                                                            <h3>
+                                                                Please proceed to cafe/counter to pay for and collect your order
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="rightContainer">
+                                        <!-- Landing page option buttons -->
+                                        <div ng-if="dealInformation.previousId == -1 && dealInformation.currentId == 0" class="w-100 bg-light" id="bottomNavigation">
+                                            <div id="optionButtonContainer">
+                                                <div class="row justify-content-center w-100 margin-0">
+                                                    <div class="col-12 col-md-12 fit-content padding-top-0-7 padding-left-0 padding-right-0">
+                                                        <div class="row justify-content-center margin-0">
+                                                            <div class="col-12 col-md-10 fit-content" ng-repeat="option in dealInformation.currentNode.node.outputConnectors">
+                                                                <div ng-if=" option.name !='default' " class=" btn btn-block btn-adverto font-weight-bold padding-top-0-7 padding-bottom-0-7" ng-click="dealItemClicked(dealInformation.currentId, $index)" data-fittext>
+                                                                    {{option.name | titlecase}}
+                                                                </div>
+                                                                <div ng-if="option.name=='default'" class=" btn btn-block btn-adverto font-weight-bold padding-top-0-7 padding-bottom-0-7" ng-click="dealItemClicked(dealInformation.currentId, $index)" data-fittext>
+                                                                    Click to Order
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center w-100 margin-0">
+                                                    <div class="col-12 col-md-12 fit-content padding-top-0-7 padding-left-0 padding-right-0">
+                                                        <div class="row justify-content-center margin-0">
+                                                            <div class="col-12 col-md-10 fit-content">
+                                                                <div class="row justify-content-center margin-0">
+                                                                    <div class=" btn btn-block btn-danger font-weight-bold padding-top-0-7 padding-bottom-0-7" ng-click="closeOrder()" data-fittext>
+                                                                        Cancel
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Deal option buttons -->
+                                        <div ng-if="dealInformation.currentId >= 1" class="w-100 bg-light" id="bottomNavigation">
+                                            <div id="optionButtonContainer">
+                                                <div class="row justify-content-center w-100 margin-0">
+                                                    <div class="col-12 col-md-12 fit-content padding-top-0-7 padding-left-0 padding-right-0">
+                                                        <div class="row justify-content-center margin-0">
+                                                            <div class="col-12 col-md-10 fit-content">
+                                                                <div class="row justify-content-center margin-0">
+                                                                    <div class="btn btn-block btn-info font-weight-bold padding-top-0-7 padding-bottom-0-7" ng-click="goBack()" data-fittext>
+                                                                        Back
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row justify-content-center w-100 margin-0">
+                                                    <div class="col-12 col-md-12 fit-content padding-top-0-7 padding-left-0 padding-right-0">
+                                                        <div class="row justify-content-center margin-0">
+                                                            <div class="col-12 col-md-10 fit-content">
+                                                                <div class="row justify-content-center margin-0">
+                                                                    <div class=" btn btn-block btn-danger font-weight-bold padding-top-0-7 padding-bottom-0-7" ng-click="confirmCancel()" data-fittext>
+                                                                        Cancel
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="confirmCancelModal" tabindex="-1" role="dialog" aria-labelledby="confirmCancelModalTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row justify-content-center text-center padding-2">
+                                        <div class="col-12 col-md-12 margin-bottom-1">
+                                            <h1 class="font-weight-bold margin-bottom-2" data-fittext>Are you sure you want to cancel?
+                                            </h1>
+                                        </div>
+                                        <div class="col-5 col-md-5">
+                                            <button type="button" class="btn btn-danger btn-block font-weight-bold font-1-5 padding-top-1 padding-bottom-1" ng-click="closeConfirmCancel()" data-fittext>No</button>
+                                        </div>
+                                        <div class="col-5 col-md-5">
+                                            <button type="button" class="btn btn-success btn-block font-weight-bold font-1-5 padding-top-1 padding-bottom-1" ng-click="closeOrder()" data-fittext>Yes</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</body>
+<script src="../../data.json" charset="utf-8"></script>
+<script src="assets/main.js"></script>
+
+</html>

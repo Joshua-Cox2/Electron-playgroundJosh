@@ -1,0 +1,14 @@
+body {
+    background-color: #000000;
+    overflow: hidden;
+    margin: 0;
+}
+
+.canvas-container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+video {
+    position: absolute;
+}

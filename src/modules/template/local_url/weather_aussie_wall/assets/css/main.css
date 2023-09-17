@@ -1,0 +1,427 @@
+@font-face {
+  font-family: "weathericons";
+  src: url("../font/weathericons-regular-webfont.eot");
+  src: url("../font/weathericons-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../font/weathericons-regular-webfont.woff") format("woff"), url("../font/weathericons-regular-webfont.ttf") format("truetype"), url("../font/weathericons-regular-webfont.svg#weathericons-regular-webfontRg") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+.wi {
+  display: inline-block;
+  font-family: "weathericons";
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.wi-degrees:before {
+  content: "\f042";
+}
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role=list],
+ol[role=list] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  *,
+*::before,
+*::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+@font-face {
+  font-family: "circular-black";
+  src: url("./../font/CircularStd-Black.woff2") format("woff2");
+}
+@font-face {
+  font-family: "circular-book";
+  src: url("./../font/CircularStd-Book.woff") format("woff");
+}
+@font-face {
+  font-family: "nitti-grotesk-semilight";
+  src: url("./../font/Nitti-Grotesk-SemiLight.woff") format("woff");
+}
+:root {
+  --font-family: "circular-black";
+  --font-family--secondary: "nitti-grotesk-semilight";
+  --font-family--other: "circular-book";
+}
+
+html {
+  background-color: #000000;
+}
+
+body {
+  font-family: "circular-black";
+  background-color: #4B1F68;
+  background: -webkit-linear-gradient(left, #6B3885 0%, #4B1F68 55%);
+  background: -moz-linear-gradient(left, #6B3885 0%, #4B1F68 55%);
+  background: -o-linear-gradient(left, #6B3885 0%, #4B1F68 55%);
+  background: linear-gradient(left, #6B3885 0%, #4B1F68 55%);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.container {
+  line-height: 1;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.container__location {
+  width: 100%;
+}
+.container__location--logo {
+  display: flex;
+  justify-content: left;
+}
+.container__location--label {
+  display: flex;
+  justify-content: left;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+.container__details {
+  width: 100%;
+}
+
+.container__location--lans {
+  height: 25%;
+}
+.container__location--lans .container__location--label {
+  font-size: 9vh;
+  margin-inline-start: 2vw;
+}
+.container__location--lans .container__location--logo {
+  margin-inline-start: 2rem;
+}
+.container__location--lans .container__location--logo img {
+  height: 6vh;
+  aspect-ratio: 27/5;
+  margin-block: 4vh;
+}
+.container__details--lans {
+  display: flex;
+  height: calc(75% - 4vh);
+  width: calc(100% - 2.5vw);
+  margin-inline: 1vw;
+  justify-content: space-around;
+}
+.container__details--lans .card {
+  width: calc(25% - 1vw);
+  margin-inline: 1%;
+  height: 100%;
+  background-color: #D0B7EF;
+  border-radius: 5vh;
+  color: #4B1F68;
+  font-weight: bold;
+  font-size: 7vh;
+  box-shadow: 1vw 1vw 2vh -0.5vh #050505;
+}
+.container__details--lans .card--current {
+  background-color: #FFFFFF;
+  width: calc(50% - 1vw);
+}
+.container__details--lans .card--current--day {
+  width: 100%;
+  text-align: center;
+  font-size: 11vh;
+  margin-block: 7vh;
+}
+.container__details--lans .card--current--now {
+  font-size: 18vh;
+}
+.container__details--lans .card--current--status {
+  margin-inline: auto;
+}
+.container__details--lans .card--current--icon {
+  display: flex;
+  justify-content: center;
+}
+.container__details--lans .card--current--icon img {
+  height: 31vh;
+  aspect-ratio: 1/1;
+}
+.container__details--lans .card--current--split {
+  display: flex;
+  justify-content: center;
+}
+.container__details--lans .card--current--left {
+  width: calc(50% - 1vw);
+}
+.container__details--lans .card--current--right {
+  width: calc(50% - 1vw);
+}
+.container__details--lans .card--current--temp {
+  display: flex;
+  justify-content: center;
+  font-size: 8.5vh;
+}
+.container__details--lans .card--current--temp .temp__max--label {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+  margin-inline-end: 1vw;
+}
+.container__details--lans .card--current--temp .temp__min--label {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+  margin-inline-end: 1vw;
+}
+.container__details--lans .card__summary {
+  height: 35%;
+  width: 100%;
+  border-radius: 5vh;
+  background-color: #FFFFFF;
+  box-shadow: 0 0.5vw 3vh -1vh #050505;
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+}
+.container__details--lans .card__summary--temp {
+  font-size: 15vh;
+  width: 55%;
+  height: 50%;
+  display: block;
+  margin-block: auto;
+  margin-inline-start: 5%;
+}
+.container__details--lans .card__summary--icon {
+  display: block;
+  margin-block: auto;
+  margin-inline-end: 5%;
+}
+.container__details--lans .card__summary--icon img {
+  height: 18vh;
+  aspect-ratio: 1/1;
+}
+.container__details--lans .card__contents {
+  padding-block-start: 2vh;
+  width: 100%;
+  height: 65%;
+  text-align: center;
+}
+.container__details--lans .card__contents--day {
+  margin-block-start: 5%;
+}
+.container__details--lans .card__contents--temp {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-block-start: 7%;
+}
+.container__details--lans .card__contents--temp .temp__max--label {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+  margin-block-start: 2%;
+  margin-inline-end: 1vw;
+}
+.container__details--lans .card__contents--temp .temp__max--value {
+  margin-block-start: 2%;
+}
+.container__details--lans .card__contents--temp .temp__min--label {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+  margin-inline-end: 1vw;
+}
+.container__details--lans .card__contents--status {
+  width: 21vw;
+  margin-inline: auto;
+}
+.container__details--lans .left--small {
+  width: calc(40% - 1vw);
+}
+.container__details--lans .right--small {
+  width: calc(40% - 1vw);
+}
+
+.container__location--port {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  height: 20vh;
+}
+.container__location--port .container__location--logo {
+  width: calc(50% - 2vw);
+}
+.container__location--port .container__location--logo img {
+  display: block;
+  margin: auto;
+  height: 4vh;
+  aspect-ratio: 27/5;
+}
+.container__location--port .container__location--label {
+  height: fit-content;
+  text-align: center;
+  font-size: 4vh;
+  width: calc(50% - 2vw);
+  margin-block: auto;
+}
+.container__details--port {
+  width: calc(100% - 2rem);
+  height: 80vh;
+  margin-inline: 1vw;
+}
+.container__details--port .card {
+  width: calc(100% - 1vw);
+  height: calc(15% - 1.5vh);
+  display: flex;
+  justify-content: space-between;
+  background-color: #D0B7EF;
+  border-radius: 2.5rem;
+  box-shadow: 1rem 1rem 2rem -0.5rem #050505;
+  color: #4B1F68;
+  margin-block-end: 2vh;
+  margin-inline-start: 1vw;
+  padding-inline: 5%;
+  padding-block: 2.5%;
+}
+.container__details--port .card__current {
+  display: block;
+  background-color: #FFFFFF;
+  height: calc(53% - 1vh);
+  font-size: 5vh;
+  padding-block: 5%;
+}
+.container__details--port .card__current--top {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  height: 80%;
+}
+.container__details--port .card__current__icon {
+  height: fit-content;
+  margin-block: auto;
+}
+.container__details--port .card__current__icon img {
+  aspect-ratio: 1/1;
+  height: 16vh;
+}
+.container__details--port .card__current__details {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.container__details--port .card__current__temp {
+  display: flex;
+  font-size: 7vh;
+}
+.container__details--port .card__current__temp--label {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+  margin-inline-end: 1vw;
+}
+.container__details--port .card__current__summary--value {
+  font-size: 15vh;
+}
+.container__details--port .card__summary {
+  font-size: 3vh;
+  margin-block: auto;
+}
+.container__details--port .card__summary--status {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+}
+.container__details--port .card__details {
+  display: flex;
+}
+.container__details--port .card__details--value {
+  font-size: 3vh;
+  margin-block: auto;
+  width: 30vw;
+}
+.container__details--port .card__details--temp {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.container__details--port .card__details--temp.mb-s {
+  margin-block-start: 1vh;
+}
+.container__details--port .card__details--temp .temp__max--label {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+  margin-block-start: 2%;
+  margin-inline-end: 1vw;
+}
+.container__details--port .card__details--temp .temp__max--value {
+  margin-block-start: 2%;
+}
+.container__details--port .card__details--temp .temp__min--label {
+  font-family: "nitti-grotesk-semilight";
+  font-weight: normal;
+  margin-inline-end: 1vw;
+}
+.container__details--port .card__details--icon {
+  margin-block: auto;
+}
+.container__details--port .card__details--icon img {
+  aspect-ratio: 1/1;
+  height: 7vh;
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="favicon.ico?v=3" />
+    <title>Weather 5 Day</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+</head>
+
+<body class="line-height-per-720">
+    <div class="container-fluid" id="main">
+        <div id="pageBackground" class="imgLiquid imgLiquidFill">
+            <video id="backgroundVideo" loop muted autoplay>
+                <source id="backgroundSource" src="" type="video/webm">
+            </video>
+        </div>
+        <div class="row height-per-94 padding-top-per-3 padding-left-per-3 padding-right-per-3 overflow-hide" id="displayContainer">
+            <div class="col height-per-100" id="left-column">
+                <div class="row opacity-layer height-per-46" id="current-day">
+                    <div class="col-12 font-per-400" id="weather-location-container">
+                        <span id="weather-location-name"></span>
+                    </div>
+                    <div class="col-12 text-center font-per-1200" id="current-weather">
+                        <span id="now-temp"></span><i class="wi wi-celsius"></i>
+                    </div>
+                    <div class="col-12 text-center font-per-400 text-primary" id="current-description"></div>
+                </div>
+                <div class="row margin-top-per-8 height-per-46 opacity-layer" id="left-col-split">
+                    <div class="col-4 font-per-300 text-primary first-detail current-detail">Maximum</div>
+                    <div class="col-8 font-per-300 first-detail current-detail"><span id="maximum"></span><i class="wi wi-celsius"></i></div>
+                    <div class="col-4 font-per-300 text-primary current-detail">Minimum</div>
+                    <div class="col-8 font-per-300 current-detail"><span id="minimum"></span><i class="wi wi-celsius"></i></div>
+                    <div class="col-4 font-per-300 text-primary current-detail">Humidity</div>
+                    <div class="col-8 font-per-300 current-detail"><span id="humidity"></span>%</div>
+                    <div class="col-4 font-per-300 text-primary current-detail">Wind</div>
+                    <div class="col-8 font-per-300 current-detail"><i class="wi wi-wind" id="wind-direction"></i> at <span id="wind-speed"></span> KM/H</div>
+                </div>
+            </div>
+            <div class="col-1 height-per-100" id="landscape-split"></div>
+            <div class="col height-per-100" id="right-column">
+                <div class="row height-per-100">
+                    <div class="col-12 height-per-18-5  weather-forecast-card">
+                        <div class="row height-per-100 opacity-layer line-height-per-345" id="day1card">
+                            <div class="col-12">
+                                <div class="row day-row" id="day1">
+                                    <div class="col-12 day-name font-per-300"></div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="weather-high font-per-200 "><span class="text-primary">High:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="weather-low font-per-200"><span class="text-primary">Low:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="weather-label font-per-250"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="weather-icon"><i class="wi text-primary font-per-500"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 height-per-18-5  weather-forecast-card">
+                        <div class="row height-per-100  opacity-layer line-height-per-345" id="day2card">
+                            <div class="col-12">
+                                <div class="row day-row" id="day2">
+                                    <div class="col-12 day-name font-per-300"></div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="weather-high font-per-200 "><span class="text-primary">High:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="weather-low font-per-200"><span class="text-primary">Low:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="weather-label font-per-250"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="weather-icon"><i class="wi text-primary font-per-500"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 height-per-18-5  weather-forecast-card">
+                        <div class="row height-per-100  opacity-layer line-height-per-345" id="day3card">
+                            <div class="col-12">
+                                <div class="row day-row" id="day3">
+                                    <div class="col-12 day-name font-per-300"></div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="weather-high font-per-200 "><span class="text-primary">High:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="weather-low font-per-200"><span class="text-primary">Low:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="weather-label font-per-250"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="weather-icon"><i class="wi text-primary font-per-500"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 height-per-18-5  weather-forecast-card">
+                        <div class="row height-per-100  opacity-layer line-height-per-345" id="day4card">
+                            <div class="col-12">
+                                <div class="row day-row" id="day4">
+                                    <div class="col-12 day-name font-per-300"></div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="weather-high font-per-200 "><span class="text-primary">High:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="weather-low font-per-200"><span class="text-primary">Low:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="weather-label font-per-250"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="weather-icon"><i class="wi text-primary font-per-500"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 height-per-18-5  weather-forecast-card">
+                        <div class="row height-per-100  opacity-layer line-height-per-345" id="day5card">
+                            <div class="col-12">
+                                <div class="row day-row" id="day5">
+                                    <div class="col-12 day-name font-per-300"></div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-10">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="weather-high font-per-200 "><span class="text-primary">High:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="weather-low font-per-200"><span class="text-primary">Low:</span> <span class="val"></span><i class="wi wi-celsius"></i></div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <span class="weather-label font-per-250"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="weather-icon"><i class="wi text-primary font-per-500"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="lymlive-logo">
+        <img src="assets/images/logo-on-burn.png" alt="Lymlive Media">
+    </div>
+</body>
+<script src="../../data.json" charset="utf-8"></script>
+<script src="assets/js/main-dist.js" charset="utf-8"></script>
+
+</html>
